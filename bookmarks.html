@@ -327,6 +327,7 @@
                 Your Bookmarks
                 <span class="bookmark-count" id="bookmarkCount">0</span>
             </h2>
+            <input type="text" id="searchInput" placeholder="🔍 Search bookmarks by title..." style="margin-bottom: 1.5rem;">
             <div id="bookmarksList" class="bookmarks-list">
                 <div class="empty-state">
                     <div class="empty-state-icon">📚</div>
@@ -344,6 +345,7 @@
         const bookmarkCount = document.getElementById('bookmarkCount');
         const clearBtn = document.getElementById('clearBtn');
         const alert = document.getElementById('alert');
+        const searchInput = document.getElementById('searchInput');
 
         const STORAGE_KEY = 'bookmarks';
 
@@ -370,6 +372,11 @@
             const bookmarks = loadBookmarks();
             bookmarkCount.textContent = bookmarks.length;
 
+            const query = searchInput.value.trim().toLowerCase();
+            const filtered = query
+                ? bookmarks.filter(b => b.title.toLowerCase().includes(query))
+                : bookmarks;
+
             if (bookmarks.length === 0) {
                 bookmarksList.innerHTML = `
                     <div class="empty-state">
@@ -380,7 +387,19 @@
                 return;
             }
 
-            bookmarksList.innerHTML = bookmarks.map((bookmark, index) => `
+            if (filtered.length === 0) {
+                bookmarksList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <p class="empty-state-text">No bookmarks match "${escapeHtml(searchInput.value.trim())}"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            bookmarksList.innerHTML = filtered.map((bookmark) => {
+                const index = bookmarks.indexOf(bookmark);
+                return `
                 <div class="bookmark-item">
                     <span class="bookmark-icon">🔖</span>
                     <div class="bookmark-content">
@@ -398,7 +417,8 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         // Escape HTML to prevent XSS
@@ -459,6 +479,9 @@
                 showAlert('🗑️ All bookmarks cleared');
             }
         });
+
+        // Filter as user types
+        searchInput.addEventListener('input', renderBookmarks);
 
         // Initial render
         renderBookmarks();
