@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-brand">MyWebsite</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#about" onclick="showSection('about')">About</a></li>
+                <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span id="themeIcon">🌙</span>
+                <span id="themeName">Dark</span>
+            </button>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <h1>Welcome to Our Website</h1>
+            <p>This is a clean and modern website template with a responsive navigation bar. Built with semantic HTML and modern CSS, it provides a smooth user experience across all devices.</p>
+            <p>Navigate using the menu above to explore different sections of the site.</p>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Us</h2>
+            <p>We are a dedicated team focused on creating beautiful, functional, and user-friendly web experiences. Our approach combines modern design principles with clean code practices.</p>
+            <p>With expertise in frontend development, we specialize in building responsive websites that work seamlessly on all screen sizes and devices.</p>
+            <p>Our mission is to deliver high-quality web solutions that help businesses and individuals achieve their goals online.</p>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Get In Touch</h2>
+            <p>We'd love to hear from you! Whether you have a question or just want to say hello, feel free to reach out.</p>
+            <p><strong>Email:</strong> hello@mywebsite.com</p>
+            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+            <p><strong>Address:</strong> 123 Main Street, Anytown, ST 12345</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 MyWebsite. All rights reserved.</p>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize dark mode from localStorage
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateThemeButton();
+        }
+
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateThemeButton();
+        });
+
+        function updateThemeButton() {
+            const isDark = document.body.classList.contains('dark-mode');
+            const icon = document.getElementById('themeIcon');
+            const name = document.getElementById('themeName');
+
+            if (isDark) {
+                icon.textContent = '☀️';
+                name.textContent = 'Light';
+            } else {
+                icon.textContent = '🌙';
+                name.textContent = 'Dark';
+            }
+        }
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Section switcher
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Close mobile menu
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

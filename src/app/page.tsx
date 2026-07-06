@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import ContactForm from './components/ContactForm'
 
 const keralty = {
   bluePrimary: '#002F87',
@@ -42,6 +43,7 @@ export default function Home() {
           <nav style={{ display: 'flex', gap: '2rem', fontSize: '0.95rem' }}>
             <a href="#features" style={{ color: keralty.white, textDecoration: 'none', fontWeight: '500' }}>Características</a>
             <a href="#api" style={{ color: keralty.white, textDecoration: 'none', fontWeight: '500' }}>API</a>
+            <a href="#contact" style={{ color: keralty.white, textDecoration: 'none', fontWeight: '500' }}>Contacto</a>
           </nav>
         </div>
       </header>
@@ -176,6 +178,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Contact Form */}
+      <ContactForm />
 
       {/* Footer */}
       <footer style={{ padding: '3rem 2rem', backgroundColor: keralty.bluePrimary, color: keralty.white, textAlign: 'center', fontSize: '0.875rem', marginTop: 'auto' }}>
